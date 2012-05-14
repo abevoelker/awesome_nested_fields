@@ -168,7 +168,8 @@
       if($element.attr('data-new-record')) { // record is new
         $element.remove();
       } else { // record should be marked and sent to server
-        $element.find("INPUT[name$='[_destroy]']").val('true');
+        // ActiveRecord uses _destroy; dm-accepts_nested_attributes uses _delete
+        $element.find("INPUT[name$='[_destroy]'],INPUT[name$='[_delete]']").val('true');
         $element.hide();
       }
       insertEmpty(options);

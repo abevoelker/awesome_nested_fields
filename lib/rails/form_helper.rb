@@ -4,7 +4,12 @@ ActionView::Helpers::FormBuilder.class_eval do
     raise ArgumentError, 'Missing block to nested_fields_for' unless block_given?
     
     options[:new_item_index] ||= 'new_nested_item'
-    options[:new_object] ||= self.object.class.reflect_on_association(association).klass.new
+    if defined? DataMapper
+      options[:new_object] ||= self.object.class.relationships[association].target_model.new
+    else
+      # Assume ActiveRecord
+      options[:new_object] ||= self.object.class.reflect_on_association(association).klass.new
+    end
     options[:item_template_class] ||= ['template', 'item', association.to_s.singularize].join(' ')
     options[:empty_template_class] ||= ['template', 'empty', association.to_s.singularize].join(' ')
     options[:show_empty] ||= false
