@@ -38,6 +38,7 @@ protected
   def render_nested_fields_template(association, options, &block)
     templates = @template.content_tag(:script, :type => 'text/html', :class => options[:item_template_class]) do
       template = fields_for(association, options[:new_object], :child_index => options[:new_item_index], &block)
+      puts "TEMPLATE IS #{template}"
       template = AwesomeNestedFields.escape_html_tags(template) if options[:escape_template]
       template
     end
